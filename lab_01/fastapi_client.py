@@ -67,7 +67,8 @@ def display_image_from_response(response):
     """Display image within server's response.
 
     Args:
-        response (requests.models.Response): The response from the server after object detection.
+        response (requests.models.Response): The response from the server
+                                             after object detection.
 
     """
 
