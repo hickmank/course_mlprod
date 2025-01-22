@@ -14,7 +14,6 @@ import numpy as np
 from IPython.display import Image, display
 
 import uvicorn
-import numpy as np
 import nest_asyncio
 from enum import Enum
 from fastapi import FastAPI, UploadFile, File, HTTPException
@@ -32,9 +31,9 @@ image_files = [
     'car.jpg'
     ]
 
-for image_file in image_files:
-    print(f'\nDisplaying image: {image_file}')
-    display(Image(filename=f"./images/{image_file}"))
+# for image_file in image_files:
+#     print(f'\nDisplaying image: {image_file}')
+#     display(Image(filename=f"./images/{image_file}"))
 
 
 # Now we create and draw boxes around objects in the images
@@ -137,12 +136,12 @@ def prediction(model: Model, file: UploadFile = File(...)):
     output_image = draw_bbox(image, bbox, label, conf)
 
     # Save it in a folder within the server
-    cv2.imwrite(f'./images_uploaded/{filename}', output_image)
+    cv2.imwrite(f'images_uploaded/{filename}', output_image)
 
     # 4. Stream the response back to the client
 
     # Open the saved image for reading in binary mode
-    file_image = open(f'./images_uploaded/{filename}', mode='rb')
+    file_image = open(f'images_uploaded/{filename}', mode='rb')
 
     # return the image as a stream specifying media type
     return StreamingResponse(file_image, media_type='image/jpeg')
@@ -157,4 +156,6 @@ nest_asyncio.apply()
 host = '127.0.0.1'
 
 # Spin up the server
-uvicorn.run(app, host=host, port=8000, root_path='/serve')
+uvicorn.run(app, host=host, port=8000, root_path='/')
+
+# Now you can got to http://127.0.0.1:8000/docs and try out your model!!!
